@@ -1,8 +1,15 @@
 {
   description = "A neovim configuration system for NixOS";
 
+  nixConfig = {
+    allow-input-from-derivation = false;
+    pure-eval = true;
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    systems.url = "github:nix-systems/default";
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
@@ -11,20 +18,16 @@
 
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
+
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
   };
 
   outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = import inputs.systems;
 
-      imports = [./flake-modules];
+      imports = [ ./flake-modules ];
     };
 }
