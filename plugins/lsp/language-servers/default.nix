@@ -517,8 +517,8 @@ with lib; let
       description = "Enable rust-analyzer, for Rust.";
       serverName = "rust_analyzer";
 
-      settingsOptions = import ./rust-analyzer-config.nix lib pkgs;
-      settings = cfg: {rust-analyzer = cfg;};
+      settingsOptions = import ./rust-analyzer/config.nix lib pkgs;
+      settings = rust-analyzer: {inherit rust-analyzer;};
     }
     {
       name = "solargraph";
@@ -600,7 +600,7 @@ in {
       ./efmls-configs.nix
       ./nixd.nix
       ./pylsp.nix
-      ./rust-analyzer.nix
+      ./rust-analyzer
       ./svelte.nix
       ./vls.nix
     ];

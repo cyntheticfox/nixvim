@@ -13,6 +13,7 @@ in {
     // {
       enable = mkEnableOption "rust tools plugins";
       package = helpers.mkPackageOption "rust-tools" pkgs.vimPlugins.rust-tools-nvim;
+
       serverPackage = mkOption {
         type = with types; nullOr package;
         default = pkgs.rust-analyzer;
@@ -129,7 +130,7 @@ in {
             setting it to false may improve startup time
           '';
         }
-        // (import ../lsp/language-servers/rust-analyzer-config.nix lib pkgs);
+        // (import ../lsp/language-servers/rust-analyzer/config.nix lib pkgs);
     };
   config = mkIf cfg.enable {
     extraPlugins = with pkgs.vimPlugins; [nvim-lspconfig cfg.package];
